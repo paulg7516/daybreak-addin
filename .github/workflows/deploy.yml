@@ -1,0 +1,53 @@
+name: Deploy add-in to Pages
+
+# Publishes the Daybreak Outlook add-in to GitHub Pages. The repo holds the add-in
+# with localhost dev URLs (identical to addin/ in the main Daybreak repo); this
+# workflow swaps them to the production Pages URL, validates the manifest, and
+# deploys. So updating the add-in is just: push the changed files here.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - manifest.xml
+      - src/**
+      - assets/**
+      - .github/workflows/deploy.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Assemble site with production URLs
+        run: |
+          BASE="https://paulg7516.github.io/daybreak-addin"
+          mkdir -p _site
+          cp -R src assets README.md _site/
+          sed "s#https://localhost:3000#${BASE}#g" manifest.xml > _site/manifest.xml
+          sed -i "s#<AppDomain>${BASE}</AppDomain>#<AppDomain>https://paulg7516.github.io</AppDomain>#" _site/manifest.xml
+      - name: Validate the deployed manifest
+        run: npx -y office-addin-manifest validate _site/manifest.xml
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

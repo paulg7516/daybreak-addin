@@ -10,11 +10,11 @@
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Daybreak" />
   <Description DefaultValue="Tag an outgoing message for the recipient's Daybreak triage queue." />
-  <IconUrl DefaultValue="https://paulg7516.github.io/daybreak-addin/assets/icon-32.png" />
-  <HighResolutionIconUrl DefaultValue="https://paulg7516.github.io/daybreak-addin/assets/icon-80.png" />
-  <SupportUrl DefaultValue="https://paulg7516.github.io/daybreak-addin" />
+  <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png" />
+  <SupportUrl DefaultValue="https://localhost:3000" />
   <AppDomains>
-    <AppDomain>https://paulg7516.github.io</AppDomain>
+    <AppDomain>https://localhost:3000</AppDomain>
   </AppDomains>
   <Hosts>
     <Host Name="Mailbox" />
@@ -27,7 +27,7 @@
   <FormSettings>
     <Form xsi:type="ItemEdit">
       <DesktopSettings>
-        <SourceLocation DefaultValue="https://paulg7516.github.io/daybreak-addin/src/taskpane.html" />
+        <SourceLocation DefaultValue="https://localhost:3000/src/taskpane.html" />
       </DesktopSettings>
     </Form>
   </FormSettings>
@@ -71,12 +71,12 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="icon16" DefaultValue="https://paulg7516.github.io/daybreak-addin/assets/icon-16.png" />
-        <bt:Image id="icon32" DefaultValue="https://paulg7516.github.io/daybreak-addin/assets/icon-32.png" />
-        <bt:Image id="icon80" DefaultValue="https://paulg7516.github.io/daybreak-addin/assets/icon-80.png" />
+        <bt:Image id="icon16" DefaultValue="https://localhost:3000/assets/icon-16.png" />
+        <bt:Image id="icon32" DefaultValue="https://localhost:3000/assets/icon-32.png" />
+        <bt:Image id="icon80" DefaultValue="https://localhost:3000/assets/icon-80.png" />
       </bt:Images>
       <bt:Urls>
-        <bt:Url id="paneUrl" DefaultValue="https://paulg7516.github.io/daybreak-addin/src/taskpane.html" />
+        <bt:Url id="paneUrl" DefaultValue="https://localhost:3000/src/taskpane.html" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="Daybreak" />
