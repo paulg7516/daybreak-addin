@@ -5,13 +5,13 @@
   xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
   xsi:type="MailApp">
   <Id>4d6c3b2a-1e9f-4a7b-9c2d-7e1f0a8b5c63</Id>
-  <Version>1.0.1.0</Version>
+  <Version>1.0.2.0</Version>
   <ProviderName>Daybreak</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Daybreak" />
   <Description DefaultValue="Tag an outgoing message for the recipient's Daybreak triage queue." />
-  <IconUrl DefaultValue="https://localhost:3000/assets/icon-32.png" />
-  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/icon-80.png" />
+  <IconUrl DefaultValue="https://localhost:3000/assets/mark-32.png" />
+  <HighResolutionIconUrl DefaultValue="https://localhost:3000/assets/mark-80.png" />
   <SupportUrl DefaultValue="https://localhost:3000" />
   <AppDomains>
     <AppDomain>https://localhost:3000</AppDomain>
@@ -71,9 +71,9 @@
     </Hosts>
     <Resources>
       <bt:Images>
-        <bt:Image id="icon16" DefaultValue="https://localhost:3000/assets/icon-16.png" />
-        <bt:Image id="icon32" DefaultValue="https://localhost:3000/assets/icon-32.png" />
-        <bt:Image id="icon80" DefaultValue="https://localhost:3000/assets/icon-80.png" />
+        <bt:Image id="icon16" DefaultValue="https://localhost:3000/assets/mark-16.png" />
+        <bt:Image id="icon32" DefaultValue="https://localhost:3000/assets/mark-32.png" />
+        <bt:Image id="icon80" DefaultValue="https://localhost:3000/assets/mark-80.png" />
       </bt:Images>
       <bt:Urls>
         <bt:Url id="paneUrl" DefaultValue="https://localhost:3000/src/taskpane.html" />
