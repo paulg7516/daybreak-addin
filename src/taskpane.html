@@ -1,0 +1,44 @@
+<!-- addin/src/taskpane.html -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daybreak</title>
+    <link rel="stylesheet" href="./taskpane.css" />
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  </head>
+  <body>
+    <main class="pane">
+      <header class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <h1>Daybreak</h1>
+          <p>Send this to their triage queue</p>
+        </div>
+      </header>
+
+      <fieldset class="intents">
+        <legend>How should they treat this?</legend>
+        <label class="intent"><input type="radio" name="intent" value="blocked" /> <span><strong>Blocked</strong> - waiting on you</span></label>
+        <label class="intent"><input type="radio" name="intent" value="action" /> <span><strong>Action needed</strong> by a date</span></label>
+        <label class="intent"><input type="radio" name="intent" value="whenever" /> <span><strong>Whenever</strong> you get to it</span></label>
+        <label class="intent"><input type="radio" name="intent" value="fyi" /> <span><strong>FYI</strong> - no reply needed</span></label>
+      </fieldset>
+
+      <div class="row" id="dateRow" hidden>
+        <label for="byDate">By date</label>
+        <input type="date" id="byDate" />
+      </div>
+
+      <div class="row">
+        <label for="bcc">Also route to (optional)</label>
+        <input type="email" id="bcc" placeholder="name@company.com" />
+      </div>
+
+      <button id="apply" class="apply" type="button" disabled>Apply to this message</button>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+    </main>
+    <script type="module" src="./taskpane.js"></script>
+  </body>
+</html>
