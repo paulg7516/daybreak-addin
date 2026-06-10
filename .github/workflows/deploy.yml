@@ -28,7 +28,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - name: Assemble site with production URLs
         run: |
           BASE="https://paulg7516.github.io/daybreak-addin"
@@ -38,7 +38,7 @@ jobs:
           sed -i "s#<AppDomain>${BASE}</AppDomain>#<AppDomain>https://paulg7516.github.io</AppDomain>#" _site/manifest.xml
       - name: Validate the deployed manifest
         run: npx -y office-addin-manifest validate _site/manifest.xml
-      - uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v5
         with:
           path: _site
 
@@ -50,4 +50,4 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
-        uses: actions/deploy-pages@v4
+        uses: actions/deploy-pages@v5
