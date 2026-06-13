@@ -1,7 +1,7 @@
 /* addin/src/taskpane.css */
 :root {
   --bg: #0f141d; --panel: #171c27; --line: #2a3344;
-  --ink: #eef1f7; --ink-2: #a2abbd; --accent: #6e6bff;
+  --ink: #eef1f7; --ink-2: #a2abbd; --accent: #ff6a3d;
   --today: #ff5f63;
   color-scheme: dark;
 }
@@ -12,8 +12,8 @@ body { margin: 0; background: var(--bg); color: var(--ink);
 .brand { display: flex; align-items: center; gap: 10px; }
 .brand h1 { margin: 0; font-size: 15px; }
 .brand p { margin: 0; font-size: 12px; color: var(--ink-2); }
-.mark { width: 22px; height: 22px; border-radius: 7px;
-  background: linear-gradient(135deg, #fbbf24, #f43f5e, #7c3aed); }
+.mark { width: 22px; height: 22px; border-radius: 6px; overflow: hidden;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 120'><rect width='120' height='120' fill='%23ff6a3d'/><path d='M34.1 60 A24.7 24.7 0 0 1 83.5 60 Z' fill='%23fff'/><path d='M41.2 67.1 A24.7 24.7 0 0 0 90.6 67.1 Z' fill='%23fff' opacity='.7'/></svg>") center/cover no-repeat; }
 .intents { border: 1px solid var(--line); border-radius: 10px; margin: 0; padding: 10px 12px; }
 .intents legend { font-size: 12px; color: var(--ink-2); padding: 0 4px; }
 .intent { display: flex; align-items: center; gap: 8px; padding: 6px 0; cursor: pointer; }
