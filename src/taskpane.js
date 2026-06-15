@@ -2,6 +2,12 @@
 import { buildTagValue, validateBccAddress } from './tag.js';
 
 const HEADER = 'X-PTO-Triage';
+const LANE_LABEL = {
+  respond: 'Needs your reply',
+  approve: 'Needs your decision',
+  review: 'Needs your review',
+  fyi: 'FYI',
+};
 
 function el(id) { return document.getElementById(id); }
 function setStatus(msg, kind) {
@@ -15,8 +21,37 @@ function selectedIntent() {
 }
 function refreshControls() {
   const intent = selectedIntent();
-  el('dateRow').hidden = intent !== 'action';
-  el('apply').disabled = intent === null;
+  // Only a decision carries a deadline, and it requires one.
+  el('dateRow').hidden = intent !== 'approve';
+  el('apply').disabled = intent === null || (intent === 'approve' && !el('byDate').value);
+}
+function fmtDate(v) {
+  if (!v) return '';
+  const d = new Date(`${v}T00:00:00`);
+  return Number.isNaN(d.getTime()) ? v : d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+}
+
+// Swap the form for the success card and spell out exactly what was applied.
+function showDone(intent, date, bcc) {
+  const summary = el('doneSummary');
+  summary.textContent = '';
+  const chip = document.createElement('span');
+  chip.className = 'chip';
+  chip.textContent = LANE_LABEL[intent] || intent;
+  summary.appendChild(chip);
+  let rest = '';
+  if (intent === 'approve' && date) rest += ` by ${fmtDate(date)}`;
+  if (bcc) rest += ` · also looped in ${bcc}`;
+  if (rest) summary.appendChild(document.createTextNode(rest));
+
+  el('form').hidden = true;
+  el('done').hidden = false;
+}
+function showForm() {
+  el('done').hidden = true;
+  el('form').hidden = false;
+  setStatus('');
+  refreshControls();
 }
 
 // Promisified Office async call.
@@ -28,6 +63,10 @@ function officeCall(fn) {
     });
   });
 }
+
+// Remember the Bcc we already added so re-applying (after "Change tag") does not
+// stack duplicate recipients on the draft.
+let addedBcc = null;
 
 async function apply() {
   const intent = selectedIntent();
@@ -51,13 +90,13 @@ async function apply() {
   try {
     const item = Office.context.mailbox.item;
     await officeCall((cb) => item.internetHeaders.setAsync({ [HEADER]: value }, cb));
-    if (bcc) {
+    if (bcc && bcc !== addedBcc) {
       await officeCall((cb) => item.bcc.addAsync([{ emailAddress: bcc }], cb));
+      addedBcc = bcc;
     }
-    setStatus(bcc ? `Tagged and routing to ${bcc}. Send when ready.` : 'Tagged. Send when ready.', 'ok');
+    showDone(intent, el('byDate').value, bcc);
   } catch (e) {
     setStatus(`Could not apply: ${e.message}`, 'err');
-  } finally {
     el('apply').disabled = false;
   }
 }
@@ -65,5 +104,7 @@ async function apply() {
 Office.onReady(() => {
   document.querySelectorAll('input[name="intent"]').forEach((r) => r.addEventListener('change', refreshControls));
   el('apply').addEventListener('click', apply);
+  el('change').addEventListener('click', showForm);
+  el('byDate').addEventListener('input', refreshControls);
   refreshControls();
 });

@@ -18,27 +18,41 @@
         </div>
       </header>
 
-      <fieldset class="intents">
-        <legend>What do you need from them?</legend>
-        <label class="intent"><input type="radio" name="intent" value="blocked" /> <span><strong>Needs your reply</strong></span></label>
-        <label class="intent"><input type="radio" name="intent" value="action" /> <span><strong>Needs your decision</strong> by a date</span></label>
-        <label class="intent"><input type="radio" name="intent" value="whenever" /> <span><strong>Needs your review</strong></span></label>
-        <label class="intent"><input type="radio" name="intent" value="fyi" /> <span><strong>FYI</strong> &middot; no reply needed</span></label>
-      </fieldset>
+      <div id="form" class="form">
+        <fieldset class="intents">
+          <legend>What do you need from them?</legend>
+          <label class="intent"><input type="radio" name="intent" value="respond" /> <span><strong>Needs your reply</strong></span></label>
+          <label class="intent"><input type="radio" name="intent" value="approve" /> <span><strong>Needs your decision</strong> by a date</span></label>
+          <label class="intent"><input type="radio" name="intent" value="review" /> <span><strong>Needs your review</strong></span></label>
+          <label class="intent"><input type="radio" name="intent" value="fyi" /> <span><strong>FYI</strong> &middot; no reply needed</span></label>
+        </fieldset>
 
-      <div class="row" id="dateRow" hidden>
-        <label for="byDate">By date</label>
-        <input type="date" id="byDate" />
+        <div class="row" id="dateRow" hidden>
+          <label for="byDate">By date</label>
+          <input type="date" id="byDate" />
+        </div>
+
+        <div class="row">
+          <label for="bcc">Also loop someone in (optional)</label>
+          <input type="email" id="bcc" placeholder="name@company.com" />
+          <p class="hint">Bcc's them, so it lands in their queue too for visibility.</p>
+        </div>
+
+        <button id="apply" class="apply" type="button" disabled>Apply to this message</button>
+        <p id="status" class="status" role="status" aria-live="polite"></p>
       </div>
 
-      <div class="row">
-        <label for="bcc">Also loop someone in (optional)</label>
-        <input type="email" id="bcc" placeholder="name@company.com" />
-        <p class="hint">Bcc's them, so it lands in their queue too for visibility.</p>
-      </div>
-
-      <button id="apply" class="apply" type="button" disabled>Apply to this message</button>
-      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <section id="done" class="done" hidden aria-live="polite">
+        <div class="done-head">
+          <span class="done-badge" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+          </span>
+          <h2 class="done-title">Tagged for their queue</h2>
+        </div>
+        <p class="done-summary" id="doneSummary"></p>
+        <p class="done-next"><strong>Send your message as usual</strong> &mdash; the tag travels with it and lands in their Daybreak queue.</p>
+        <button type="button" id="change" class="link">Change tag</button>
+      </section>
     </main>
     <script type="module" src="./taskpane.js"></script>
   </body>

@@ -3,7 +3,7 @@
 // load in the browser AND run under Vitest. The header values match exactly what
 // the recipient-side parser (src/scoring/sender-tag.ts) understands.
 
-const INTENTS = new Set(['blocked', 'whenever', 'fyi', 'action']);
+const INTENTS = new Set(['respond', 'approve', 'review', 'fyi']);
 
 // Returns 'YYYY-MM-DD' for a Date or a 'YYYY-MM-DD' string, or null if invalid.
 export function formatByDate(value) {
@@ -20,15 +20,15 @@ export function formatByDate(value) {
   return null;
 }
 
-// Builds the X-PTO-Triage header value for an intent. 'action' requires a date.
+// Builds the X-PTO-Triage header value for an intent. respond/approve/review may
+// carry an optional ';by=YYYY-MM-DD' deadline; fyi never does.
 export function buildTagValue(intent, byDate) {
   if (!INTENTS.has(intent)) {
     throw new Error(`Unknown intent: ${intent}`);
   }
-  if (intent === 'action') {
+  if (intent !== 'fyi') {
     const by = formatByDate(byDate);
-    if (!by) throw new Error('Action needs a valid date.');
-    return `action;by=${by}`;
+    if (by) return `${intent};by=${by}`;
   }
   return intent;
 }
