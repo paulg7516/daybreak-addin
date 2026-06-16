@@ -37,3 +37,26 @@ export function buildTagValue(intent, byDate) {
 export function validateBccAddress(value) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value).trim());
 }
+
+// Maps a header intent (canonical or legacy) to the canonical lane id.
+const INTENT_ALIASES = {
+  respond: 'respond', blocked: 'respond',
+  approve: 'approve', action: 'approve',
+  review: 'review', whenever: 'review',
+  fyi: 'fyi',
+};
+
+// Parses an X-PTO-Triage header value -> { intent, by } (by is null if absent),
+// or null if the value is not a Daybreak tag. The recipient/queue side of buildTagValue.
+export function parseTagValue(raw) {
+  if (!raw) return null;
+  const parts = String(raw).trim().split(';');
+  const intent = INTENT_ALIASES[(parts[0] || '').toLowerCase()];
+  if (!intent) return null;
+  let by = null;
+  for (const p of parts.slice(1)) {
+    const m = p.trim().match(/^by=(\d{4}-\d{2}-\d{2})$/i);
+    if (m) by = m[1];
+  }
+  return { intent, by: intent === 'fyi' ? null : by };
+}

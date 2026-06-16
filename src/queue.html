@@ -1,0 +1,27 @@
+<!-- addin/src/queue.html - PROTOTYPE recipient queue, pinnable read-surface panel -->
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Daybreak queue</title>
+    <link rel="stylesheet" href="./queue.css" />
+    <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+    <!-- msal-browser (UMD) for nested-app-auth; exposes window.msal -->
+    <script src="https://alcdn.msauth.net/browser/3.27.0/js/msal-browser.min.js"></script>
+  </head>
+  <body>
+    <main class="queue">
+      <header class="brand">
+        <span class="mark" aria-hidden="true"></span>
+        <div>
+          <h1>Your queue</h1>
+          <p>What people have tagged for you</p>
+        </div>
+      </header>
+      <p id="status" class="status" role="status" aria-live="polite" hidden></p>
+      <div id="lanes" class="lanes"></div>
+    </main>
+    <script type="module" src="./queue.js"></script>
+  </body>
+</html>

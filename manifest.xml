@@ -5,7 +5,7 @@
   xmlns:mailappor="http://schemas.microsoft.com/office/mailappversionoverrides/1.0"
   xsi:type="MailApp">
   <Id>4d6c3b2a-1e9f-4a7b-9c2d-7e1f0a8b5c63</Id>
-  <Version>1.0.11.0</Version>
+  <Version>1.0.12.0</Version>
   <ProviderName>Daybreak</ProviderName>
   <DefaultLocale>en-US</DefaultLocale>
   <DisplayName DefaultValue="Daybreak" />
@@ -66,6 +66,29 @@
               </Group>
             </OfficeTab>
           </ExtensionPoint>
+          <ExtensionPoint xsi:type="MessageReadCommandSurface">
+            <OfficeTab id="TabDefault">
+              <Group id="daybreakReadGroup">
+                <Label resid="groupLabel" />
+                <Control xsi:type="Button" id="daybreakOpenQueue">
+                  <Label resid="queueLabel" />
+                  <Supertip>
+                    <Title resid="queueLabel" />
+                    <Description resid="queueTip" />
+                  </Supertip>
+                  <Icon>
+                    <bt:Image size="16" resid="icon16" />
+                    <bt:Image size="32" resid="icon32" />
+                    <bt:Image size="80" resid="icon80" />
+                  </Icon>
+                  <Action xsi:type="ShowTaskpane">
+                    <SourceLocation resid="queueUrl" />
+                    <SupportsPinning>true</SupportsPinning>
+                  </Action>
+                </Control>
+              </Group>
+            </OfficeTab>
+          </ExtensionPoint>
         </DesktopFormFactor>
       </Host>
     </Hosts>
@@ -77,13 +100,16 @@
       </bt:Images>
       <bt:Urls>
         <bt:Url id="paneUrl" DefaultValue="https://localhost:3000/src/taskpane.html" />
+        <bt:Url id="queueUrl" DefaultValue="https://localhost:3000/src/queue.html" />
       </bt:Urls>
       <bt:ShortStrings>
         <bt:String id="groupLabel" DefaultValue="Daybreak" />
         <bt:String id="btnLabel" DefaultValue="Daybreak" />
+        <bt:String id="queueLabel" DefaultValue="Daybreak queue" />
       </bt:ShortStrings>
       <bt:LongStrings>
         <bt:String id="btnTip" DefaultValue="Tag this message for the recipient's Daybreak triage queue." />
+        <bt:String id="queueTip" DefaultValue="See what people have tagged for your Daybreak queue." />
       </bt:LongStrings>
     </Resources>
   </VersionOverrides>
