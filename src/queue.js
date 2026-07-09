@@ -71,24 +71,64 @@ function rowNode(item) {
   return row;
 }
 
+// Collapse state persists per lane. First run has no stored preference, so FYI
+// starts collapsed (it's the "no action needed" lane). localStorage is fine for the
+// prototype; production should move this to Office roaming settings.
+const COLLAPSE_KEY = 'daybreak.queue.collapsed';
+function loadCollapsed() {
+  const raw = localStorage.getItem(COLLAPSE_KEY);
+  if (raw == null) {
+    const initial = ['fyi'];
+    try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify(initial)); } catch { /* ignore */ }
+    return new Set(initial);
+  }
+  try { return new Set(JSON.parse(raw)); } catch { return new Set(); }
+}
+function saveCollapsed(set) {
+  try { localStorage.setItem(COLLAPSE_KEY, JSON.stringify([...set])); } catch { /* ignore */ }
+}
+
 function render(items) {
   const root = document.getElementById('lanes');
   root.textContent = '';
+  const collapsed = loadCollapsed();
+
   for (const lane of LANES) {
     const rows = items.filter((i) => i.intent === lane.id);
-    const section = el('section', 'lane');
+    const isCollapsed = collapsed.has(lane.id);
+    const section = el('section', isCollapsed ? 'lane collapsed' : 'lane');
     section.appendChild(el('div', `rail ${lane.id}`));
+
     const head = el('div', 'lane-head');
+    head.setAttribute('role', 'button');
+    head.tabIndex = 0;
+    head.setAttribute('aria-expanded', String(!isCollapsed));
+    head.appendChild(el('span', 'chev'));
     const ht = el('div', 'lane-titles');
     ht.appendChild(el('h2', null, lane.title));
     ht.appendChild(el('p', null, lane.desc));
     head.append(ht, el('span', 'count', String(rows.length)));
-    section.appendChild(head);
+
+    const bodyEl = el('div', 'lane-body');
     if (rows.length === 0) {
-      section.appendChild(el('p', 'empty', 'All caught up here.'));
+      bodyEl.appendChild(el('p', 'empty', 'All caught up here.'));
     } else {
-      rows.forEach((r) => section.appendChild(rowNode(r)));
+      rows.forEach((r) => bodyEl.appendChild(rowNode(r)));
     }
+
+    const toggle = () => {
+      const nowCollapsed = section.classList.toggle('collapsed');
+      head.setAttribute('aria-expanded', String(!nowCollapsed));
+      const set = loadCollapsed();
+      if (nowCollapsed) set.add(lane.id); else set.delete(lane.id);
+      saveCollapsed(set);
+    };
+    head.addEventListener('click', toggle);
+    head.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+
+    section.append(head, bodyEl);
     root.appendChild(section);
   }
 }

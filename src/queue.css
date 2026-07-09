@@ -1,7 +1,7 @@
 /* addin/src/queue.css - self-contained styles for the add-in side-panel queue.
    Standalone (not sharing taskpane.css) so its .row/.status don't collide. */
 :root {
-  --bg: #0f141d; --panel: #171c27; --panel-2: #1b2230; --line: #2a3344;
+  --bg: #0f141d; --panel: #171c27; --panel-2: #1b2230; --hover: #202839; --line: #2a3344;
   --ink: #eef1f7; --ink-2: #a2abbd; --ink-3: #687184; --accent: #ff6a3d;
   color-scheme: dark;
 }
@@ -20,35 +20,54 @@ body { margin: 0; background: var(--bg); color: var(--ink);
   background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; }
 .status[hidden] { display: none; }
 
-.lanes { display: flex; flex-direction: column; gap: 10px; }
-.lane { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; background: var(--panel); }
-.rail { height: 3px; width: 100%; }
+.lanes { display: flex; flex-direction: column; gap: 8px; }
+.lane { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
+.rail { height: 3px; width: 100%; border-radius: 9px 9px 0 0; }
 .rail.respond { background: #ff5f63; }
 .rail.approve { background: #ffb23e; }
 .rail.review  { background: var(--accent); }
 .rail.fyi     { background: #8b95a8; }
 
-.lane-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 9px 11px; }
+/* Lane header doubles as a collapse toggle and sticks to the top while its
+   lane scrolls past, so you always know which lane you're reading. */
+.lane-head { position: sticky; top: 0; z-index: 2;
+  display: flex; align-items: flex-start; gap: 8px; padding: 9px 11px;
+  background: var(--panel); border-radius: 10px 10px 0 0;
+  cursor: pointer; user-select: none; transition: background .12s; }
+.lane-head:hover { background: var(--panel-2); }
+.lane-head:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.lane.collapsed .lane-head { border-radius: 10px; }
+.chev { flex: 0 0 auto; width: 14px; height: 14px; margin-top: 1px; transition: transform .15s;
+  background: url("data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a2abbd' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'><path d='M6 9l6 6 6-6'/></svg>") center/13px no-repeat; }
+.lane.collapsed .chev { transform: rotate(-90deg); }
+.lane-titles { flex: 1; min-width: 0; }
 .lane-titles h2 { margin: 0; font-size: 12.5px; font-weight: 600; color: var(--ink); }
 .lane-titles p { margin: 1px 0 0; font-size: 11px; line-height: 1.3; color: var(--ink-3); }
-.count { flex: 0 0 auto; font-size: 11px; font-weight: 600; color: var(--ink-2);
+.count { flex: 0 0 auto; margin-top: 1px; font-size: 11px; font-weight: 600; color: var(--ink-2);
   border: 1px solid var(--line); border-radius: 999px; padding: 1px 8px; font-variant-numeric: tabular-nums; }
+.lane.collapsed .lane-body { display: none; }
 .empty { margin: 0; padding: 10px 12px; border-top: 1px solid var(--line); text-align: center;
   font-size: 11.5px; color: var(--ink-3); }
 
-.row { display: flex; flex-direction: row; gap: 9px; align-items: flex-start; padding: 9px 11px; border-top: 1px solid var(--line); }
+.row { display: flex; flex-direction: row; gap: 9px; align-items: flex-start; padding: 8px 11px;
+  border-top: 1px solid var(--line); transition: background .12s; }
+.row:hover { background: var(--panel-2); }
 .avatar { flex: 0 0 auto; width: 24px; height: 24px; border-radius: 999px; display: grid; place-items: center;
   font-size: 10px; font-weight: 600; color: #fff; margin-top: 1px; }
 .body { min-width: 0; flex: 1; }
-.line1 { display: flex; align-items: center; gap: 6px; }
-.subject { font-size: 12.5px; font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.line1 { display: flex; align-items: center; gap: 6px; min-width: 0; }
+.subject { min-width: 0; font-size: 12.5px; font-weight: 500; color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .chip { flex: 0 0 auto; font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; border-radius: 5px; padding: 1px 5px; }
 .chip.overdue { color: #ff5f63; background: rgba(255,95,99,.14); }
 .chip.today   { color: #ffb23e; background: rgba(255,178,62,.14); }
 .chip.week    { color: var(--ink-2); background: rgba(139,149,168,.16); }
-.line2 { display: flex; align-items: center; gap: 6px; margin-top: 3px; font-size: 11px; color: var(--ink-2); }
+.line2 { display: flex; align-items: center; gap: 6px; min-width: 0; margin-top: 3px; font-size: 11px; color: var(--ink-2); }
 .who { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .src { flex: 0 0 auto; font-size: 9px; font-weight: 600; text-transform: uppercase; letter-spacing: .03em; color: var(--ink-3); border: 1px solid var(--line); border-radius: 4px; padding: 0 4px; }
 .dot, .when { flex: 0 0 auto; color: var(--ink-3); }
 .when { font-variant-numeric: tabular-nums; }
 .reason { margin-top: 3px; font-size: 11px; color: var(--ink-3); }
+
+@media (prefers-reduced-motion: reduce) {
+  .chev, .row, .lane-head { transition: none; }
+}
