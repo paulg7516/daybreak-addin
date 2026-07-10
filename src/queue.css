@@ -23,10 +23,9 @@ body { margin: 0; background: var(--bg); color: var(--ink);
 .lanes { display: flex; flex-direction: column; gap: 8px; }
 .lane { border: 1px solid var(--line); border-radius: 10px; background: var(--panel); }
 .rail { height: 3px; width: 100%; border-radius: 9px 9px 0 0; }
-.rail.respond { background: #ff5f63; }
-.rail.approve { background: #ffb23e; }
-.rail.review  { background: var(--accent); }
-.rail.fyi     { background: #8b95a8; }
+.rail.decision { background: #ffb23e; }
+.rail.input    { background: #ff5f63; }
+.rail.fyi      { background: #8b95a8; }
 
 /* Lane header doubles as a collapse toggle and sticks to the top while its
    lane scrolls past, so you always know which lane you're reading. */

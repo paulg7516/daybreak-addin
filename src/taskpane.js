@@ -3,9 +3,8 @@ import { buildTagValue, validateBccAddress } from './tag.js';
 
 const HEADER = 'X-PTO-Triage';
 const LANE_LABEL = {
-  respond: 'Needs your reply',
-  approve: 'Needs your decision',
-  review: 'Needs your review',
+  decision: 'Needs your decision',
+  input: 'Needs your input',
   fyi: 'FYI',
 };
 
@@ -22,8 +21,8 @@ function selectedIntent() {
 function refreshControls() {
   const intent = selectedIntent();
   // Only a decision carries a deadline, and it requires one.
-  el('dateRow').hidden = intent !== 'approve';
-  el('apply').disabled = intent === null || (intent === 'approve' && !el('byDate').value);
+  el('dateRow').hidden = intent !== 'decision';
+  el('apply').disabled = intent === null || (intent === 'decision' && !el('byDate').value);
 }
 function fmtDate(v) {
   if (!v) return '';
@@ -40,7 +39,7 @@ function showDone(intent, date, bcc) {
   chip.textContent = LANE_LABEL[intent] || intent;
   summary.appendChild(chip);
   let rest = '';
-  if (intent === 'approve' && date) rest += ` by ${fmtDate(date)}`;
+  if (intent === 'decision' && date) rest += ` by ${fmtDate(date)}`;
   if (bcc) rest += ` · also looped in ${bcc}`;
   if (rest) summary.appendChild(document.createTextNode(rest));
 

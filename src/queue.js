@@ -5,9 +5,8 @@
 import { CLIENT_ID, fetchTaggedItems } from './graph.js';
 
 const LANES = [
-  { id: 'respond', title: 'Needs your reply', desc: 'People waiting on your answer' },
-  { id: 'approve', title: 'Needs your decision', desc: 'Sign-offs and decisions for you' },
-  { id: 'review', title: 'Needs your review', desc: 'Worth a look when you can' },
+  { id: 'decision', title: 'Needs your decision', desc: 'Approvals and sign-offs waiting on you' },
+  { id: 'input', title: 'Needs your input', desc: 'Questions and feedback waiting on you' },
   { id: 'fyi', title: 'FYI', desc: 'No action needed, just so you know' },
 ];
 
@@ -143,10 +142,10 @@ function mockItems() {
   const iso = (d) => new Date(Date.now() - d * 86400000).toISOString();
   const day = (d) => { const x = new Date(); x.setDate(x.getDate() + d); return x.toISOString().slice(0, 10); };
   return [
-    { id: '1', subject: 'Sign-off needed on the Q3 forecast', from: 'cfo@company.com', fromName: 'Dana Whitfield', receivedAt: iso(2), intent: 'approve', by: day(1) },
-    { id: '2', subject: 'Quick question on the staging rollout', from: 'sam@company.com', fromName: 'Sam Okafor', receivedAt: iso(1), intent: 'respond', by: null },
-    { id: '3', subject: 'Re: incident postmortem - your input?', from: 'lead@company.com', fromName: 'Priya Nair', receivedAt: iso(0), intent: 'respond', by: day(0) },
-    { id: '4', subject: 'Vendor contract redlines for a look', from: 'legal@company.com', fromName: 'Marcus Cole', receivedAt: iso(3), intent: 'review', by: day(5) },
+    { id: '1', subject: 'Sign-off needed on the Q3 forecast', from: 'cfo@company.com', fromName: 'Dana Whitfield', receivedAt: iso(2), intent: 'decision', by: day(1) },
+    { id: '2', subject: 'Quick question on the staging rollout', from: 'sam@company.com', fromName: 'Sam Okafor', receivedAt: iso(1), intent: 'input', by: null },
+    { id: '3', subject: 'Re: incident postmortem - your input?', from: 'lead@company.com', fromName: 'Priya Nair', receivedAt: iso(0), intent: 'input', by: null },
+    { id: '4', subject: 'Vendor contract redlines for a look', from: 'legal@company.com', fromName: 'Marcus Cole', receivedAt: iso(3), intent: 'input', by: null },
     { id: '5', subject: 'Heads up: office closed Friday', from: 'facilities@company.com', fromName: 'Facilities', receivedAt: iso(1), intent: 'fyi', by: null },
   ];
 }
