@@ -162,9 +162,6 @@ function render(items) {
     lh.setAttribute('role', 'button');
     lh.tabIndex = 0;
     lh.setAttribute('aria-expanded', String(!isCollapsed));
-    const dot = el('span', 'dot');
-    dot.style.background = lane.dot;
-    lh.appendChild(dot);
     lh.appendChild(el('h2', null, lane.title));
     lh.appendChild(el('span', 'ct', String(rows.length)));
     lh.appendChild(el('span', 'chev', '▾'));
