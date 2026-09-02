@@ -32,7 +32,8 @@ body { margin: 0; background: var(--bg); color: var(--ink);
 .lh h2 { margin: 0; font-size: 12px; font-weight: 700; letter-spacing: .02em; color: #eef1f7; }
 .ct { margin-left: auto; font-size: 11px; color: #aab3c2; font-variant-numeric: tabular-nums;
   background: #0f141d; border: 1px solid #2a3446; border-radius: 999px; padding: 1px 8px; }
-.chev { margin-left: 2px; color: var(--ink3); font-size: 11px; transition: transform .15s; }
+.chev { margin-left: 6px; color: var(--ink2); font-size: 15px; line-height: 1; transition: transform .15s, color .12s; }
+.lh:hover .chev { color: var(--ink); }
 .lane.collapsed .chev { transform: rotate(-90deg); }
 .lane.collapsed .body { display: none; }
 
