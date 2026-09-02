@@ -5,10 +5,12 @@
 // be marked Done.
 import { CLIENT_ID, fetchTaggedItems } from './graph.js';
 
+// Lane identity uses a calm, cool palette (category markers), leaving warm red/amber
+// exclusively for urgency. `line` is the lane-tinted header underline.
 const LANES = [
-  { id: 'decision', title: 'Needs your decision', dot: '#ffb23e' },
-  { id: 'input', title: 'Needs your input', dot: '#ff5f63' },
-  { id: 'fyi', title: 'FYI', dot: '#8b95a8' },
+  { id: 'decision', title: 'Needs your decision', dot: '#8b8ef7', line: 'rgba(139,142,247,.40)' },
+  { id: 'input', title: 'Needs your input', dot: '#46b6e8', line: 'rgba(70,182,232,.40)' },
+  { id: 'fyi', title: 'FYI', dot: '#8b95a8', line: 'rgba(139,149,168,.35)' },
 ];
 
 function daysFromToday(by) {
@@ -155,6 +157,7 @@ function render(items) {
     const rows = items.filter((i) => i.intent === lane.id);
     const isCollapsed = collapsed.has(lane.id);
     const section = el('section', isCollapsed ? 'lane collapsed' : 'lane');
+    section.style.setProperty('--u', lane.line);
 
     const lh = el('div', 'lh');
     lh.setAttribute('role', 'button');
