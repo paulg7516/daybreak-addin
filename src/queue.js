@@ -5,12 +5,12 @@
 // be marked Done.
 import { CLIENT_ID, fetchTaggedItems } from './graph.js';
 
-// Lane identity uses a calm, cool palette (category markers), leaving warm red/amber
-// exclusively for urgency. `line` is the lane-tinted header underline.
+// Lane markers are neutral - colour in the panel means urgency (warm chips) only;
+// brand shows through the coral logo + top accent bar, matching Daybreak's palette.
 const LANES = [
-  { id: 'decision', title: 'Needs your decision', dot: '#8b8ef7', line: 'rgba(139,142,247,.40)' },
-  { id: 'input', title: 'Needs your input', dot: '#46b6e8', line: 'rgba(70,182,232,.40)' },
-  { id: 'fyi', title: 'FYI', dot: '#8b95a8', line: 'rgba(139,149,168,.35)' },
+  { id: 'decision', title: 'Needs your decision', dot: '#5f6a7e' },
+  { id: 'input', title: 'Needs your input', dot: '#5f6a7e' },
+  { id: 'fyi', title: 'FYI', dot: '#5f6a7e' },
 ];
 
 function daysFromToday(by) {
@@ -157,7 +157,6 @@ function render(items) {
     const rows = items.filter((i) => i.intent === lane.id);
     const isCollapsed = collapsed.has(lane.id);
     const section = el('section', isCollapsed ? 'lane collapsed' : 'lane');
-    section.style.setProperty('--u', lane.line);
 
     const lh = el('div', 'lh');
     lh.setAttribute('role', 'button');
