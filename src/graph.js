@@ -6,8 +6,8 @@
 // falls back to mock data so the panel still renders.
 import { parseTagValue } from './tag.js';
 
-// >>> Azure checklist: paste your registered app's Application (client) ID here. <<<
-export const CLIENT_ID = '';
+// Registered Entra app "Daybreak" (tenant App registrations). Empty = mock mode.
+export const CLIENT_ID = '864b500e-03d7-45d1-9eed-67c75bd924a9';
 
 let pcaPromise = null;
 function getPca() {
